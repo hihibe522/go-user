@@ -10,6 +10,21 @@ import (
 
 var client *redis.Client
 
+func init() {
+	client = redis.NewClient(&redis.Options{
+		Addr: "localhost:6379", // Redis 服务器地址和端口
+		DB:   0,                // 使用的 Redis 数据库索引，默认为 0
+	})
+
+	// 測試連線
+	_, err := client.Ping(context.Background()).Result()
+	if err != nil {
+		fmt.Println("Failed to connect to Redis:", err)
+	} else {
+		fmt.Println("Redis connect success")
+	}
+}
+
 func GetRedisClient() *redis.Client {
 	return client
 }
@@ -50,20 +65,5 @@ func DelRedis(client *redis.Client, key string) {
 		fmt.Println("Failed to delete data:", err)
 	} else {
 		fmt.Println("Delete data successfully.")
-	}
-}
-
-func init() {
-	client = redis.NewClient(&redis.Options{
-		Addr: "localhost:6379", // Redis 服务器地址和端口
-		DB:   0,                // 使用的 Redis 数据库索引，默认为 0
-	})
-
-	// 测试连接
-	_, err := client.Ping(context.Background()).Result()
-	if err != nil {
-		fmt.Println("Failed to connect to Redis:", err)
-	} else {
-		fmt.Println("Redis connect success")
 	}
 }

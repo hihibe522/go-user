@@ -111,6 +111,7 @@ func Login(c *gin.Context) {
 
 	// 將取到的資料，回傳給前端
 	c.JSON(http.StatusOK, user)
+	// 設定 cookie
 	c.SetCookie("session", sessionKey, 36000, "/", "localhost", false, true)
 }
 
@@ -138,7 +139,10 @@ func UpdateUser(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"message": "User updated successfully"})
+	c.JSON(http.StatusOK, gin.H{
+		"message": "User updated successfully",
+		"data":    user,
+	})
 }
 
 // 取得所有會員資料
